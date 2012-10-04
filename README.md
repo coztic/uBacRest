@@ -11,14 +11,15 @@ This is some examples of how the script is intended to be used:
 
 As of yet, the command name for the script is not decided. Hence the %0 command to start with.
 
--------------
 SIMPLE BACKUP
+-------------
 
 Lists the folder that can be backed up.
-    %0 backup
+
+    @%0 backup@
 
 Backup folder 6.5.
-    %0 backup 6.5
+    @%0 backup 6.5@
 
 Backup the current referenced folder with no comment.
     %0 backup current
@@ -27,8 +28,8 @@ Backup the current referenced folder with no comment.
     %0 backup current "Innan test av nya funktionen 'express'"
 
 
---------------
 SIMPLE RESTORE
+--------------
 
 Lists the folders that can be restored.
     %0 restore
@@ -49,15 +50,15 @@ Restores the latest backup file.
     %0 restore 6.5 latest
 
 
----------------
 COMPLEX RESTORE
+---------------
 
 Restores the latest backup file to another directory (test_folder).
     %0 restore 6.5 -1 test_folder
 
 
---------------------------
 RESTORE FROM REMOTE SERVER
+--------------------------
 
 Show help regarding restore remote functionality / show a list of possible remote servers.
     %0 restore-remote
