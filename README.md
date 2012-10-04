@@ -9,11 +9,13 @@ Example usage
 
 This is some examples of how the script is intended to be used:
 
+As of yet, the command name for the script is not decided. Hence the %0 command to start with.
+
 
 /<>\ SIMPLE BACKUP /<>\
 
 // Lists the folder that can be backed up.
-%0 backup
+  %0 backup
 
 // Backup folder 6.5.
 %0 backup 6.5
