@@ -1,23 +1,32 @@
 #!/bin/bash
 
 
+
+
 #################################################
 # VARIABLES
 
 
 # SYSTEM ERROR EXIT CODES
 ERRC_NO_DST_BASE_PATH=101
+ERRC_FAIL_TO_CREATE_DST_BASE_PATH=102
 
 # END SYSTEM EXIT CODES
 #################################################
 
 
+# Comment out block
+: << 'CICOM'
+CICOM
 
-if [ ${PRINT_DBG} == 1 ]; then
 
-# IMPORT GLOBAL CONFIG FROM ubacrest.cfg
+# IMPORT CONFIG FROM ubacrest.cfg
 source ubacrest.cfg
 
+
+#################################################
+# MAIN FUNCTION where the main code is defined 
+#################################################
 function main() {
   
   # Silences output if defined
@@ -26,7 +35,8 @@ function main() {
   # Welcome text to script
   echo "${TITLE} backup/restore script"
   
-
+   #######
+  # DEBUG #######################################
   # Check debug functionality
   dbg " "
   dbg " -=- dBacRest bash script -=-"
@@ -34,11 +44,14 @@ function main() {
   dbg " "
   print_config_variables
   
-  # Check destination folder existance (create if does not exist)
+  # Check destination folder 
+  #  create if does not exist
   check_backup_folder
 
+  
 
 }
+
 
 
 #################################################
@@ -87,15 +100,18 @@ function print_config_variables() {
 function check_backup_folder() {
   # Check if DST_BASE_PATH is defined
   if [ -z ${DST_BASE_PATH} ]; then
-    error_exit 101 "DST_BASE_PATH not defined." "Define variable in ubacrest.cnf"
-    echo ""
-    echo "ERROR: DST_BASE_PATH not defined."
-    echo "  add variable in ubacrest.cfg"
+    error_exit $ERRC_NO_DST_BASE_PATH "DST_BASE_PATH not defined." "Define variable in ubacrest.cnf"
   fi
 
   if [ ! -d ${DST_BASE_PATH} ]; then
-    echo "Directory '${DST_BASE_PATH}' does not exist"
-    error_exit 2 "ERROR"
+    dbg "Directory '${DST_BASE_PATH}' does not exist."
+    echo "  Creating directory '${DST_BASE_PATH}'"
+    mkdir -p ${DST_BASE_PATH}
+    if [ $? != 0 ]; then
+      error_exit $ERRC_FAIL_TO_CREATE_DST_BASE_PATH "Failed to execute 'mkdir -p'"
+    fi
+  else
+    dbg "Directory '${DST_BASE_PATH}' already exist."
   fi
 }
 
@@ -134,4 +150,3 @@ main
 
 # EOF
 #################################################
-
