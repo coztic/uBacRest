@@ -2,14 +2,16 @@
 
 
 #################################################
-# SYSTEM EXIT CODES
+# VARIABLES
 
 
-# ERROR CODES
+# SYSTEM ERROR EXIT CODES
 ERRC_NO_DST_BASE_PATH=101
 
 # END SYSTEM EXIT CODES
 #################################################
+
+
 
 if [ ${PRINT_DBG} == 1 ]; then
 
@@ -20,14 +22,17 @@ function main() {
   
   # Silences output if defined
   check_silence
+ 
+  # Welcome text to script
+  echo "${TITLE} backup/restore script"
   
+
   # Check debug functionality
   dbg " "
   dbg " -=- dBacRest bash script -=-"
   dbg ".      DEBUG MODE ENABLED "
   dbg " "
   print_config_variables
-
   
   # Check destination folder existance (create if does not exist)
   check_backup_folder
@@ -41,11 +46,9 @@ function main() {
 #  the stream to /dev/null if $SILENT == 1
 #################################################
 function check_silence() {
-
   if [ ${SILENT} == 1 ]; then
     exec 1>/dev/null
   fi
-
 }
 
 #################################################
@@ -62,7 +65,6 @@ function dbg() {
 #  in this function though.
 #################################################
 function print_config_variables() {
-
   # DEBUG: Print variables from config file (manually specified) 
   if [ ${PRINT_DBG} == 1 ]; then 
     echo "SILENT=${SILENT}"
@@ -71,7 +73,6 @@ function print_config_variables() {
     echo "DST_BASE_PATH=${DST_BASE_PATH}"
     echo ""
   fi
-
 }
 
 
@@ -84,7 +85,6 @@ function print_config_variables() {
 #  script exits with defined exit code
 #################################################
 function check_backup_folder() {
-  
   # Check if DST_BASE_PATH is defined
   if [ -z ${DST_BASE_PATH} ]; then
     error_exit 101 "DST_BASE_PATH not defined." "Define variable in ubacrest.cnf"
@@ -97,7 +97,6 @@ function check_backup_folder() {
     echo "Directory '${DST_BASE_PATH}' does not exist"
     error_exit 2 "ERROR"
   fi
-  
 }
 
 #################################################
@@ -124,7 +123,6 @@ function error_exit() {
   if [ -n "$3" ]; then echo "  $3" > /dev/null; fi
   
   exit $1
-
 }
 #################################################
 # CALL MAIN FUNCTION 
@@ -135,3 +133,5 @@ function error_exit() {
 main
 
 # EOF
+#################################################
+
